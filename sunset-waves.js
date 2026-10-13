@@ -26,10 +26,10 @@
       float swell=sin(phase-time*1.12);
       float secondary=sin(phase*1.71-time*1.65+uv.x*2.1);
       float ripple=sin(uv.y*225.+uv.x*18.-time*2.2);
-      float surge=(swell*.7+secondary*.3)*(.0015+.010*depth);
-      float wash=sin(time*.72+uv.y*6.)*.009*depth;
+      float surge=(swell*.7+secondary*.3)*(.003+.020*depth);
+      float wash=sin(time*.72+uv.y*6.)*.018*depth;
       float shore=exp(-abs(uv.x-edge(uv.y))*22.);
-      vec2 offset=vec2(surge*.55+wash*shore, surge*.45+ripple*.0007*depth)*water;
+      vec2 offset=vec2(surge*.55+wash*shore, surge*.45+ripple*.0014*depth)*water;
       vec3 color=texture2D(photo,clamp(uv-offset,vec2(.001),vec2(.999))).rgb;
       // Moving grazing light across the small swells, kept very subtle.
       float glint=(sin(phase-time*1.12+.45)-sin(phase+.45))*.012*water;
@@ -63,7 +63,7 @@
   const time=gl.getUniformLocation(program,'time');
   let ready=false, paused=reduced.matches, visible=true, frame=0, elapsed=0, previous=0;
   function sync(){button.textContent=paused?'Play waves':'Pause waves';button.setAttribute('aria-label',paused?'Play beach waves':'Pause beach waves');}
-  function draw(){gl.uniform1f(time,elapsed);gl.drawArrays(gl.TRIANGLES,0,6);}
+  function draw(){gl.uniform1f(time,elapsed*2);gl.drawArrays(gl.TRIANGLES,0,6);}
   function resize(){
     const scale=Math.min(devicePixelRatio||1,1.75);
     canvas.width=Math.min(960,Math.round(canvas.clientWidth*scale));
